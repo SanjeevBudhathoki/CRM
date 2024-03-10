@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-3 d-none d-lg-block "></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">UPDATE</h1>
+                            </div>
+                            <form method="POST" action="{% url 'update' pk=customer.pk %}">
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <div class="col-sm-12 mb-3 mb-sm-0">
+                                        <label>username</label>
+                                        <input type="text" class="form-control" name="username" value="{{ customer.username }}" id="username">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label>email</label>
+                                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" value="{{ customer.email }}"aria-describedby="emailHelp">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label>phone_number</label>
+                                        <input type="tel" class="form-control" value="{{ customer.phone_number }}" id="phone_number" name="phone_number">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label>company_name</label>
+                                        <input type="text" class="form-control" value="{{ customer.company_name }}" name="company_name" id="company_name">
+                                    </div>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <div class="mb-3">
+                                        <label for="exampleFormControlTextarea1" class="form-label">company_notes</label>
+                                        <input type="textarea" name="company_notes" class="form-control" value="{{ customer.company_notes }}" id="exampleFormControlTextarea1" rows="3">
+                                      </div>
+                                    
+                                </div>
+
+                                <div class="mt-4 mb-0">
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary btn-block">UPDATE</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    {% endblock %}

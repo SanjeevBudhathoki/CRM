@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<h2>Create a New Deal</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <a class="btn btn-primary" href="{% url 'create_deal' %}" role="button">Link</a>
+</form>
+<table class="table table-bordered" id="example" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Deal Title</th>
+            <th>Status</th>
+            <th>Deal with Customer</th>
+            <th>Expected Close Date</th>
+            <th>Amount</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for deal in deals %}
+        <tr>
+            <td>{{ deal.deal_title }}</td>
+            <td>{{ deal.deal_status }}</td>
+            <td>{{ deal.deal_withCustomer }}</td>
+            <td>{{ deal.expected_close_date }}</td>
+            <td>{{ deal.deal_amount }}</td>
+            <td><a href="{% url 'edit_deal' pk=deal.pk %}"><button type="button"
+                        class="btn btn-warning">Edit</button></a>
+            </td>
+            <td><a href="{% url 'delete_deal' pk=deal.pk %}"><button type="button"
+                        class="btn btn-danger">Delete</button></a></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

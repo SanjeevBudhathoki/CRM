@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>Customer Detail</title> -->
+    <!-- Add your CSS link or style tags here for custom styling -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    
+
+    <div class="container mt-5">
+        <!-- <h2>Customer Detail</h2> -->
+        <hr>
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Customer Information</h3>
+                <p><strong>Name:</strong> {{ customer_detail.username }}</p>
+                <p><strong>Email:</strong> {{ customer_detail.email }}</p>
+                <p><strong>Phone No:</strong> {{ customer_detail.phone_number }}</p>
+                <p><strong>Company Name:</strong> {{ customer_detail.company_name }}</p>
+                <p><strong>Company Notes:</strong> {{ customer_detail.company_notes }}</p>
+                <!-- Add other customer information fields as needed -->
+            </div>
+
+            <!-- <div class="col-md-6">
+                <h3>Latest Interaction</h3>
+                {% if latest_interaction %}
+                <p><strong>Latest Interaction:</strong> {{ latest_interaction|date:"F j, Y g:i a" }}</p>
+                {% else %}
+                <p>No interactions recorded yet.</p>
+                {% endif %}
+            </div> -->
+        </div>
+
+        <div class="mt-4">
+            <h3>Interactions</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mode</th>
+                        <th>Date and Time</th>
+                        <th>Notes</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for interaction in interactions %}
+                    <tr>
+                        <td>{{ interaction.get_interacted_mode_display }}</td>
+                        <td>{{ interaction.interacted_time|date:"F j, Y g:i a" }}</td>
+                        <td>{{ interaction.interaction_notes }}</td>
+                        <td><a href="{% url 'interaction_delete' pk=interaction.id %}"><button type="button"
+                            class="btn btn-primary">Delete</button></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4">
+            <h3>Add Interaction</h3>
+            <form method="POST" action="{% url 'customer_detail' pk=customer_detail.pk %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="interacted_mode">Interaction Mode:</label>
+                    <select class="" name="interacted_mode" required>
+                        {% for status_option in status_option_list %}
+                            <option value="{{ status_option }}">{{ status_option }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="datetime">Date & Time:</label>
+                    <input type="datetime-local" class="" name="datetime" required id="datetime"> 
+                    
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes:</label>
+                    <textarea class="form-control" name="notes"></textarea>
+                </div>
+        
+                <button type="submit" class="btn btn-primary">Add Interaction</button>
+            </form>
+        </div>
+        
+    </div>
+</body>
+{% endblock %}

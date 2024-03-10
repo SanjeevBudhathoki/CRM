@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<h2>Create a New Task</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <a class="btn btn-primary" href="{% url 'create_task' %}" role="button">Link</a>
+</form>
+<table class="table table-bordered" id="example" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Task Title</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Task Related to Deal</th>
+            <th>Edit Info</th>
+            <th>Delete Info</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tasks in task %}
+        <tr>
+            <td>{{ tasks.task_title }}</td>
+            <td>{{ tasks.task_status }}</td>
+            <td>{{ tasks.task_description }}</td>
+            <td>{{ tasks.task_duedate }}</td>
+            <td>{{ tasks.task_relatedtodeal }}</td>
+            <td><a href="{% url 'edit_task' pk=tasks.pk %}"><button type="button"
+                        class="btn btn-warning">Edit</button></a>
+            </td>
+            <td><a href="{% url 'delete_task' pk=tasks.pk %}"><button type="button"
+                        class="btn btn-danger">Delete</button></a></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
